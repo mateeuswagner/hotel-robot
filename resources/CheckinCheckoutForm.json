@@ -1,0 +1,23 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "body": [
+    {
+      "id": "checkin",
+      "type": "Input.Date",
+      "title": "Check In"
+    },
+    {
+      "id": "checkout",
+      "type": "Input.Date",
+      "title": "Check Out"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "Cotar"
+    }
+  ]
+}
