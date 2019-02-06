@@ -11,10 +11,9 @@ const queryRooms = async (checkin, checkout) => {
         const res = await axios.post(config.searchMotor.url, data);
         return res.data;
     } catch(e){
-        console.log(e);
     }
     
-   return;
+   return {available: []};
 
 }
 

@@ -4,17 +4,17 @@ const naoentendi = require('./naoentendi');
 const welcome = require('./welcome');
 const config = require('../config');
 
-module.exports = (intentName, data) => {
+module.exports = (intentName, data, session) => {
     switch(intentName){
         case 'welcome':
-            return welcome();
+            return welcome(session);
         case 'cotacao':
-            return cotacao(data);
+            return cotacao(session);
         case 'cotacao_com_datas':
-            return cotacao_com_datas(data);
+            return cotacao_com_datas(data, session);
         case 'saudacao':
         case 'naoentendi':
-            return naoentendi(data);
+            return naoentendi(data, session);
         default:
             return config.intents.defaultResponse;
     }   

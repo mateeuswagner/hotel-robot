@@ -1,9 +1,9 @@
-const RoomOptionsCarousel = require('../resources/RoomOptionsCarousel.json');
 const { CardFactory } = require('botbuilder');
 const searchMotorAccessor = require('../searchMotorAccessor');
 const helper = require('../helper');
 
-const cotacao_com_datas = async (data) => {
+const cotacao_com_datas = async (data, session) => {
+    session.sendActivity('Aguarde enquanto verifico os quartos disponíveis...')
     let checkin;
     let checkout;
 
@@ -15,15 +15,36 @@ const cotacao_com_datas = async (data) => {
     }
     const rooms = await searchMotorAccessor(checkin, checkout);
     
-    if(!rooms || !rooms.available){
-        return 'Sem quartos disponíveis no período fornecido!';
+    if(!rooms || rooms.available.length === 0){
+        session.sendActivity('Sem quartos disponíveis no período fornecido!');
+        return;
     }
 
-    console.log(rooms.available)
-    return {
-        text: 'Quartos',
-        attachments: [CardFactory.adaptiveCard(RoomOptionsCarousel)]
+    let attachments = []
+    for (room of rooms.available){
+        const heroCard = CardFactory.heroCard(
+            room.name,
+            room.price + '\n' + room.description,
+            CardFactory.images([room.imageURL]),            
+            CardFactory.actions([
+                {
+                    type: 'openUrl',
+                    title: 'Reservar Agora',
+                    value: 'https://docs.microsoft.com/en-us/azure/bot-service/'
+                }
+            ])
+        );
+
+        attachments.push(heroCard);
+    }
+    
+    const card = {
+        "text": "Encontrei esses quartos para você escolher!",
+        "attachmentLayout": "carousel",
+        "attachments": attachments
     };
+    session.sendActivity(card);
+    return;
 }
 
 module.exports = cotacao_com_datas;

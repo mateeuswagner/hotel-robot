@@ -56,7 +56,6 @@ class WelcomeBot {
             let text = '';
             if (turnContext.activity.value) {
                 text = helper.intentFromValue(turnContext.activity.value)
-                
             } else if (turnContext.activity.event) {
                 console.log(event);
             } else {
@@ -64,7 +63,9 @@ class WelcomeBot {
             }
 
             const res = await dialogFlowAccessor(text);
-            await turnContext.sendActivity(findIntent(res.data.result.metadata.intentName, res.data));
+            const activity = await findIntent(res.data.result.metadata.intentName, res.data, turnContext);
+
+            await turnContext.sendActivity(activity);
 
             //}
             // Save state changes
