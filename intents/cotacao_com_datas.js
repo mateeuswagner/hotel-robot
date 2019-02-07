@@ -3,7 +3,7 @@ const searchMotorAccessor = require('../searchMotorAccessor');
 const helper = require('../helper');
 
 const cotacao_com_datas = async (data, session) => {
-    session.sendActivity('Aguarde enquanto verifico os quartos disponíveis...')
+    await session.sendActivity('Aguarde enquanto verifico os quartos disponíveis...')
     let checkin;
     let checkout;
 
@@ -16,7 +16,7 @@ const cotacao_com_datas = async (data, session) => {
     const rooms = await searchMotorAccessor(checkin, checkout);
     
     if(!rooms || rooms.available.length === 0){
-        session.sendActivity('Sem quartos disponíveis no período fornecido!');
+        await session.sendActivity('Sem quartos disponíveis no período fornecido!');
         return;
     }
 
@@ -43,7 +43,7 @@ const cotacao_com_datas = async (data, session) => {
         "attachmentLayout": "carousel",
         "attachments": attachments
     };
-    session.sendActivity(card);
+    await session.sendActivity(card);
     return;
 }
 

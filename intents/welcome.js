@@ -1,5 +1,5 @@
-const welcome = (session) => {
-    session.sendActivity('Seja bem vindo ao Hotel Bla bla. Em que posso te ajudar?')
+const welcome = async (session) => {
+    await session.sendActivity('Seja bem vindo ao Hotel Bla bla. Em que posso te ajudar?')
     return;
 }
 
